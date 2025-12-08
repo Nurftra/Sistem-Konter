@@ -15,14 +15,31 @@ auth_bp = Blueprint('auth', __name__, template_folder='templates')
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
+
     form = RegistrationForm()
+
     if form.validate_on_submit():
-        user = User(username=form.username.data, role='pending')
+        total_user = User.query.count()
+
+        if total_user == 0:
+            role = "superadmin"
+        elif total_user == 1:
+            role = "staf"
+        else:
+            role = "user"
+
+        user = User(
+            username=form.username.data,
+            role=role
+        )
         user.set_password(form.password.data)
+
         db.session.add(user)
         db.session.commit()
-        flash('Congratulations, you are now a registered user! Please log in.')
+
+        flash(f'Registrasi berhasil! Akun Anda terdaftar sebagai {role}. Silakan login.')
         return redirect(url_for('auth.login'))
+
     return render_template('auth/register.html', title='Register', form=form)
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
