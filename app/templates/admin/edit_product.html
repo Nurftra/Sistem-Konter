@@ -1,0 +1,51 @@
+{% extends "admin/dashboard.html" %}
+
+{% block admin_content %}
+<h2 class="text-2xl font-bold text-text_light mb-4">Edit Produk</h2>
+
+<div class="bg-primary p-4 rounded-lg shadow-md mb-8">
+    <h3 class="text-xl font-bold text-accent mb-4">Edit Detail Produk</h3>
+    <form method="POST" action="{{ url_for('admin.edit_product', product_id=product_id) }}" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="mb-4">
+            {{ form.name.label(class="block text-text_light text-sm font-bold mb-2") }}
+            {{ form.name(class="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-text_light") }}
+            {% for error in form.name.errors %}
+                <span class="text-red-500 text-xs italic">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="mb-4">
+            {{ form.price.label(class="block text-text_light text-sm font-bold mb-2") }}
+            {{ form.price(class="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-text_light") }}
+            {% for error in form.price.errors %}
+                <span class="text-red-500 text-xs italic">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="mb-4">
+            {{ form.stock.label(class="block text-text_light text-sm font-bold mb-2") }}
+            {{ form.stock(class="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-text_light") }}
+            {% for error in form.stock.errors %}
+                <span class="text-red-500 text-xs italic">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="mb-4">
+            {{ form.category.label(class="block text-text_light text-sm font-bold mb-2") }}
+            {{ form.category(class="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-text_light") }}
+            {% for error in form.category.errors %}
+                <span class="text-red-500 text-xs italic">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="mb-6">
+            {{ form.image.label(class="block text-text_light text-sm font-bold mb-2") }}
+            {{ form.image(class="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-text_light") }}
+            {% for error in form.image.errors %}
+                <span class="text-red-500 text-xs italic">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.submit(class="bg-accent hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
+            <a href="{{ url_for('admin.manage_products') }}" class="ml-4 text-text_dark hover:underline">Batal</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

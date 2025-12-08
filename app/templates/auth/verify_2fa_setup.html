@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-screen">
+    <div class="bg-secondary p-8 rounded-lg shadow-lg max-w-sm w-full">
+        <h1 class="text-2xl font-bold text-center text-accent mb-6">{{ title }}</h1>
+        <p class="text-text_dark mb-4">Masukkan kode OTP dari aplikasi authenticator Anda untuk memverifikasi setup.</p>
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="mb-4">
+                {{ form.otp_code.label(class="block text-text_light text-sm font-bold mb-2") }}
+                {{ form.otp_code(size=6, class="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-text_light text-center", placeholder="Enter OTP code") }}
+                {% for error in form.otp_code.errors %}
+                <span class="text-red-500 text-xs italic">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="flex items-center justify-between">
+                {{ form.submit(class="bg-accent hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

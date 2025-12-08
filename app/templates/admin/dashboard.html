@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex">
+    <!-- Sidebar -->
+    <div class="w-1/5 bg-secondary p-4 rounded-lg shadow-lg mr-4">
+        <h2 class="text-xl font-bold text-accent mb-4">Admin Menu</h2>
+        <ul>
+            <li class="mb-2">
+                <a href="{{ url_for('admin.dashboard') }}" class="text-text_light hover:text-accent">Dashboard</a>
+            </li>
+            {% if current_user.role == 'superadmin' %}
+            <li class="mb-2">
+                <a href="{{ url_for('admin.manage_users') }}" class="text-text_light hover:text-accent">Kelola Admin & Staf</a>
+            </li>
+            {% endif %}
+            <li class="mb-2">
+                <a href="{{ url_for('admin.manage_products') }}" class="text-text_light hover:text-accent">Kelola Produk</a>
+            </li>
+            <li class="mb-2">
+                <a href="{{ url_for('admin.incoming_products') }}" class="text-text_light hover:text-accent">Input Barang Masuk</a>
+            </li>
+            <li class="mb-2">
+                <a href="{{ url_for('admin.outgoing_products') }}" class="text-text_light hover:text-accent">Input Barang Keluar</a>
+            </li>
+            <li class="mb-2">
+                <a href="{{ url_for('admin.view_transactions') }}" class="text-text_light hover:text-accent">Lihat Semua Transaksi</a>
+            </li>
+            <li class="mb-2">
+                <a href="{{ url_for('admin.my_activity') }}" class="text-text_light hover:text-accent">Riwayat Aktivitas Pribadi</a>
+            </li>
+            <li class="mb-2">
+                <a href="{{ url_for('admin.activity_log') }}" class="text-text_light hover:text-accent">Console Aktivitas (Global)</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="w-4/5 bg-secondary p-4 rounded-lg shadow-lg">
+        {% block admin_content %}
+        <h1 class="text-3xl font-bold text-accent mb-4">{{ title }}</h1>
+        <p class="text-text_dark">Selamat datang di Dashboard Admin. Fitur-fitur admin akan muncul di sini.</p>
+        <p class="text-text_dark">Anda masuk sebagai {{ current_user.username }} dengan peran {{ current_user.role }}.</p>
+        
+        <!-- Dashboard Statistics -->
+        <div class="mt-8">
+            <h2 class="text-2xl font-bold text-accent mb-4">Statistik Umum</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-primary p-4 rounded-lg shadow-md">
+                    <h3 class="text-lg font-bold text-text_light">Total Pengguna</h3>
+                    <p class="text-accent text-3xl">{{ total_users }}</p>
+                </div>
+                <div class="bg-primary p-4 rounded-lg shadow-md">
+                    <h3 class="text-lg font-bold text-text_light">Total Produk</h3>
+                    <p class="text-accent text-3xl">{{ total_products }}</p>
+                </div>
+                <div class="bg-primary p-4 rounded-lg shadow-md">
+                    <h3 class="text-lg font-bold text-text_light">Total Transaksi Masuk</h3>
+                    <p class="text-accent text-3xl">{{ total_incoming_transactions }}</p>
+                </div>
+                <div class="bg-primary p-4 rounded-lg shadow-md">
+                    <h3 class="text-lg font-bold text-text_light">Total Transaksi Keluar</h3>
+                    <p class="text-accent text-3xl">{{ total_outgoing_transactions }}</p>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex">
+    <!-- Sidebar -->
+    <div class="w-1/5 bg-secondary p-4 rounded-lg shadow-lg mr-4">
+        <h2 class="text-xl font-bold text-accent mb-4">Staf Menu</h2>
+        <ul>
+            <li class="mb-2">
+                <a href="{{ url_for('staf.dashboard') }}" class="text-text_light hover:text-accent">Dashboard</a>
+            </li>
+            <li class="mb-2">
+                <a href="{{ url_for('staf.list_products') }}" class="text-text_light hover:text-accent">Lihat Daftar Produk</a>
+            </li>
+            <li class="mb-2">
+                <a href="{{ url_for('staf.incoming_products') }}" class="text-text_light hover:text-accent">Input Barang Masuk</a>
+            </li>
+            <li class="mb-2">
+                <a href="{{ url_for('staf.outgoing_products') }}" class="text-text_light hover:text-accent">Input Barang Keluar</a>
+            </li>
+            <li class="mb-2">
+                <a href="{{ url_for('staf.my_activity') }}" class="text-text_light hover:text-accent">Riwayat Aktivitas Pribadi</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="w-4/5 bg-secondary p-4 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold text-accent mb-4">{{ title }}</h1>
+        <p class="text-text_dark">Selamat datang di Dashboard Staf.</p>
+        <p class="text-text_dark">Anda masuk sebagai {{ current_user.username }} dengan peran {{ current_user.role }}.</p>
+        
+        {% block staf_content %}{% endblock %}
+    </div>
+</div>
+{% endblock %}

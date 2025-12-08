@@ -1,0 +1,116 @@
+{% extends "admin/dashboard.html" %}
+
+{% block admin_content %}
+<h2 class="text-2xl font-bold text-text_light mb-4">{{ title }}</h2>
+
+<!-- Add Product Form -->
+<div class="bg-primary p-4 rounded-lg shadow-md mb-8">
+    <h3 class="text-xl font-bold text-accent mb-4">Tambah Produk Baru</h3>
+    <form method="POST" action="{{ url_for('admin.manage_products') }}" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="mb-4">
+            {{ form.name.label(class="block text-text_light text-sm font-bold mb-2") }}
+            {{ form.name(class="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-text_light") }}
+            {% for error in form.name.errors %}
+                <span class="text-red-500 text-xs italic">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="mb-4">
+            {{ form.price.label(class="block text-text_light text-sm font-bold mb-2") }}
+            {{ form.price(class="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-text_light") }}
+            {% for error in form.price.errors %}
+                <span class="text-red-500 text-xs italic">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="mb-4">
+            {{ form.stock.label(class="block text-text_light text-sm font-bold mb-2") }}
+            {{ form.stock(class="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-text_light") }}
+            {% for error in form.stock.errors %}
+                <span class="text-red-500 text-xs italic">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="mb-4">
+            {{ form.category.label(class="block text-text_light text-sm font-bold mb-2") }}
+            {{ form.category(class="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-text_light") }}
+            {% for error in form.category.errors %}
+                <span class="text-red-500 text-xs italic">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="mb-6">
+            {{ form.image.label(class="block text-text_light text-sm font-bold mb-2") }}
+            {{ form.image(class="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-text_light") }}
+            {% for error in form.image.errors %}
+                <span class="text-red-500 text-xs italic">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.submit(class="bg-accent hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
+        </div>
+    </form>
+</div>
+
+<!-- Product List -->
+<div class="bg-primary p-4 rounded-lg shadow-md overflow-x-auto">
+    <h3 class="text-xl font-bold text-accent mb-4">Daftar Produk</h3>
+    <table class="min-w-full divide-y divide-gray-700">
+        <thead class="bg-gray-700">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-text_light uppercase tracking-wider">
+                    Nama
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-text_light uppercase tracking-wider">
+                    Harga
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-text_light uppercase tracking-wider">
+                    Stok
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-text_light uppercase tracking-wider">
+                    Kategori
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-text_light uppercase tracking-wider">
+                    Gambar
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-text_light uppercase tracking-wider">
+                    Aksi
+                </th>
+            </tr>
+        </thead>
+        <tbody class="bg-secondary divide-y divide-gray-700">
+            {% for product in products %}
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-text_light">
+                    {{ product.nama }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-text_dark">
+                    Rp {{ "{:,.0f}".format(product.harga) }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-text_dark">
+                    {{ product.stok }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-text_dark">
+                    {{ product.kategori or '-' }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-text_dark">
+                    {% if product.gambar %}
+                        <img src="{{ product.gambar }}" alt="{{ product.nama }}" class="h-10 w-10 object-cover rounded-full">
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <a href="{{ url_for('admin.edit_product', product_id=product.id) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</a>
+                    <form action="{{ url_for('admin.delete_product', product_id=product.id) }}" method="post" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus produk ini?');">
+                        <input type="submit" value="Delete" class="text-red-600 hover:text-red-900 bg-transparent border-none cursor-pointer">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            {% if not products %}
+            <tr>
+                <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm text-text_dark text-center">Belum ada produk.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

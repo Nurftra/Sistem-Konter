@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Beranda{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold text-accent mb-4">Selamat Datang di Sistem Konter HP</h1>
+<p class="text-text_dark mb-4">Ini adalah halaman beranda.</p>
+
+{% if current_user.is_authenticated %}
+    <p class="text-text_dark">Anda masuk sebagai {{ current_user.username }} dengan peran {{ current_user.role }}.</p>
+    {% if current_user.role == 'superadmin' or current_user.role == 'admin' %}
+        <p class="text-text_dark mt-2">Silakan menuju ke <a href="{{ url_for('admin.dashboard') }}" class="text-accent hover:underline">Dashboard Admin</a> Anda.</p>
+    {% elif current_user.role == 'staf' or current_user.role == 'pending' %}
+        <p class="text-text_dark mt-2">Silakan menuju ke <a href="{{ url_for('staf.dashboard') }}" class="text-accent hover:underline">Dashboard Staf</a> Anda.</p>
+    {% endif %}
+{% else %}
+    <p class="text-text_dark">Silakan <a href="{{ url_for('auth.login') }}" class="text-accent hover:underline">Login</a> atau <a href="{{ url_for('auth.register') }}" class="text-accent hover:underline">Daftar</a> untuk melanjutkan.</p>
+{% endif %}
+{% endblock %}

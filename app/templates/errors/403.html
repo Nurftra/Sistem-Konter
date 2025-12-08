@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-screen">
+    <div class="bg-secondary p-8 rounded-lg shadow-lg text-center">
+        <h1 class="text-6xl font-bold text-accent mb-4">403</h1>
+        <h2 class="text-3xl font-bold text-text_light mb-4">Akses Ditolak!</h2>
+        <p class="text-text_dark mb-6">Anda tidak memiliki izin untuk mengakses halaman ini.</p>
+        <a href="{{ url_for('main.index') }}" class="bg-accent hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Kembali ke Beranda</a>
+    </div>
+</div>
+{% endblock %}
